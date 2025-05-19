@@ -5,23 +5,19 @@ def solve_sudoku(puzzle):
         if puzzle[row][col] == 0:
             for num in range(1, 10):
                 allowed = True
-                # Перевірка рядка та стовпця
                 for i in range(0, 9):
                     if (puzzle[i][col] == num) or (puzzle[row][i] == num):
                         allowed = False
                         break
-                # Перевірка 3x3 підгрупи
                 for (i, j) in product(range(0, 3), repeat=2):
                     if puzzle[row - row % 3 + i][col - col % 3 + j] == num:
                         allowed = False
                         break
-                # Якщо число дозволене, пробуємо далі
                 if allowed:
                     puzzle[row][col] = num
                     if solve_sudoku(puzzle):
                         return puzzle
                     else:
-                        # Якщо не вдалося, відкатуємо зміну
                         puzzle[row][col] = 0
             return False
     return puzzle
